@@ -1,49 +1,53 @@
-# Serverless WebSocket chat example
+# Real-Time Serverless Chat App
 
-This is a Serverless project which creates a websocket chat backend. It's quite basic, but supports
-some standard features including setting a nickname, multiple channels, and broadcasting messages
-to channel members. The coolest this is that this is entirely serverless and in Python!
+A fully serverless real-time chat application built on AWS using 
+WebSockets. Messages are instantly broadcast to all connected 
+clients without any servers to manage.
 
-## Demo
+## Architecture
 
-[![asciicast](https://asciinema.org/a/O1ya9VitrkhH1lQVCqxbJsV6P.svg)](https://asciinema.org/a/O1ya9VitrkhH1lQVCqxbJsV6P)
+- **AWS API Gateway** — WebSocket connections
+- **AWS Lambda** — Python backend logic
+- **Amazon DynamoDB** — stores connections and messages
 
-## Getting started
+## Features
 
-This can all be deployed with AWS SAM.
+- Real-time messaging via WebSockets
+- Multiple chat channels
+- Custom nicknames
+- Fully serverless — no servers to manage
 
+## Prerequisites
+
+- AWS Account
+- AWS CLI configured
+- AWS SAM CLI installed
+- Python 3.x
+
+## Deployment
 ```bash
-$ sam build
-$ sam deploy --guided
+git clone https://github.com/YOUR_USERNAME/serverless-websocket-chat
+cd serverless-websocket-chat
+sam build
+sam deploy --guided
 ```
 
-The final output will be a `wss` endpoint which you can connect to:
+## Usage
 
-```
----------------------------------------------------------------------------------
-Outputs
----------------------------------------------------------------------------------
-Key                 WebSocketURI
-Description         The WSS Protocol URI to connect to
-Value               wss://abcd123.execute-api.us-west-2.amazonaws.com/Prod
+Connect using wscat:
+```bash
+./node_modules/.bin/wscat -c wss://YOUR_ENDPOINT
 ```
 
-Use `wscat` to connect and test:
+Commands:
+- `/name John` — set your nickname
+- `/channel random` — switch channel
+- `/help` — list commands
 
-- Install `wscat` by just running `yarn`
-- In two different terminals: `./node_modules/.bin/wscat -c wss://YOUR_WS_ENDPOING`
-- Now type a meesage and hit enter...you'll see messages from one window pop up into another.
-
-## Commands
-
-- `/name bz` - Change your display name to `bz`
-- `/channel random` - Change to the `random` channel. Default channel is `general`
-- `/help`
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+## Cleanup
+```bash
+sam delete
+```
 
 ## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
+MIT-0
